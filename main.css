@@ -45,7 +45,7 @@ div {
 
 #country-form{
    position: absolute;
-   top: 60px;
+   top: 50px;
    left: 42px;
 }
 
@@ -157,66 +157,52 @@ html {
 }
 
 .title {
-   font-family: "FF Meta Pro", sans serif;
-   font-size: 30px;
-   font-weight: normal;
+   font-family: "Fira Sans", sans serif;
+   font-size: 21px;
+   font-weight: 200;
    line-height: 1.85;
    opacity: 1.00;
    margin-top: 0px;
    margin-bottom: 10px;
+   letter-spacing: -0.50px;
    word-spacing: -0.40px;
    text-transform: none;
 }
 
 .headline{
-   font-family: "FF Meta Pro", sans serif;
-   font-size: 56px;
-   font-weight: Regular;
+   font-family: "Fira Sans", sans serif;
+   font-size:42px;
+   font-weight: 400;
    line-height: 1.85;
    opacity: 1.00;
    margin-top: 0px;
    margin-bottom: 10px;
-   letter-spacing: -1.00px;
-   word-spacing: -0.40px;
+   letter-spacing: -1.75px;
+   word-spacing: -0.70px;
    text-transform: none;
 }
 
-
-h2 {
-   font-family: "FF Meta Pro", sans serif;
-   font-size: 20px;
-   font-weight: 700;
-   line-height: 1.30;
-   opacity: 0.65;
-   margin-top: 30px;
-   margin-bottom: 5px;
-   letter-spacing: -0.49px;
-   word-spacing: 0.40px;
-   text-transform: none;
-}
-
-h3 {
-   font-family: "FF Meta Pro", sans serif;
-   font-size: 25px;
+.headline-bold{
+   font-family: "Fira Sans", sans serif;
+   font-size:42px;
    font-weight: 400;
-   line-height: 1.20;
+   line-height: 1.85;
    opacity: 1.00;
-   margin-top: 30px;
-   margin-bottom: 5px;
-   letter-spacing: -0.17px;
-   word-spacing: 0.00px;
+   margin-top: 0px;
+   margin-bottom: 10px;
+   letter-spacing: -1.75px;
+   word-spacing: -0.70px;
    text-transform: none;
 }
-
-p {
-   font-family: "ff-meta-serif-web-pro", sans serif;
-   font-size: 18px;
-   font-weight: 500;
-   line-height: 1.45;
-   opacity: 0.50;
+.descripton{
+   font-family: "Sentinel", sans serif;
+   font-size:16px;
+   font-weight: 400;
+   line-height: 1.85;
+   opacity: 1.00;
    margin-top: 0px;
-   margin-bottom: 25px;
-   letter-spacing: -0.23px;
-   word-spacing: -0.30px;
+   margin-bottom: 10px;
+   letter-spacing: 0.30px;
+   word-spacing: -0.40px;
    text-transform: none;
 }
