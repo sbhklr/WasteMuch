@@ -51,108 +51,42 @@
 			  document.getElementById("map-container").appendChild(svg);
 			  svgCanvas = d3.select("#map");
 			  drawMainInterface();		  
-			});
-
-			function registerMouseEvents(){			
-
-				var centerPoint = d3.select("#AU-Center");
-				d3.select("#map").on("mousemove", function() {
-					var coordinates = [0, 0];
-					coordinates = d3.mouse(this);
-					var x = coordinates[0];
-					var y = coordinates[1];
-					console.log(coordinates);
-				});
-				
-			}
+			});			
 
 			function sortByPosition(a, b){
 			  if (a.y == b.y) return a.x - b.x;
 			  return a.y - b.y;
 			}
 
-			function link(d) {
-			  return "M" + d.source.y + "," + d.source.x
-			      + "C" + (d.source.y + d.target.y) / 2 + "," + d.source.x
-			      + " " + (d.source.y + d.target.y) / 2 + "," + d.target.x
-			      + " " + d.target.y + "," + d.target.x;
-			}
-
 			function drawMainInterface(){												
 				svgCanvas.selectAll("circle").style("opacity", 0);
 				var circles = svgCanvas.selectAll("circle");
-
-				// circles.each(function(d,i){					
-				// 	var circle = d3.select(this);
-				// 	circle.data([{"x" : circle.attr("cx"), "y" : circle.attr("cy")}]);
-				// });
-
-				// var sortedCircles = circles.sort(function(a,b){					
-				// 	return sortByPosition(a,b);
-				// });
-
-				// sortedCircles.transition()
-				// 	.duration(250)
-				// 	.delay(function(d,i) { return i * 0.5; })
-				// 	.style("opacity", 1).on("end", function(d,i){
-				// 		if(i == sortedCircles.size() - 1){							
-				// 			//Finished
-				// 		}
-				// 	});
-
+			
 				circles.transition()
 					.duration(250)
 					.delay(function(d,i) { return i * 0.5; })
 					.style("opacity", 1);
-
-				registerMouseEvents();
-				drawCurve();
+				
+				drawCurve(0,0, 100, 50);
 				drawSidebar();
 			}
 
-			function drawCurve(){
+			function drawCurve(fromX, fromY, toX, toY){
 
-				var dataArray = [{x:5, y:5},{x:10, y:15},{x:20, y:7},{x:30, y:18},{x:40, y:10}];				
+				var dataArray = [{x:fromX, y:fromY},{x:toX / 2, y:fromY + 50},{x:toX, y:toY}];				
 				var group = svgCanvas.append("g").attr("class","group1");
 
-				// svgCanvas.append("path")			      
-			 //      .attr("class", "line")
-			 //      .style("stroke", "red")
-			 //      .attr("id", 'tag')
-			 //      .attr("d", d3.line()
-			 //                   .curve(d3.curveBasis)
-			 //                   .x(function(d) { return 100; })
-			 //                   .y(function(d) { return 100; })
-			 //               );
-
-
-				var newX = -270;
-				var newY = 20;
-				var baselineY = 100;
-			 	
-			    var line0 = d3.line()
-			    .x(function(d) { return newX + (d.x * 5); })
-			    .y(function(d) { return newY + baselineY - (d.y * 5); })
-			    .curve(d3.curveNatural);
+			 	var lineGenerator = d3.line()
+                         .x(function(d) { return d.x; })
+                         .y(function(d) { return d.y; })
+                         .curve(d3.curveBasis);
 
 			    group.append("path")
 				.style("fill","none")
-				.style("stroke","red")
-				.style("stroke-width","4px")
-				.attr("d",function(d,i){ return line0(dataArray); });
-
-
-				// var bezierLine = d3.line()
-				// 	    .x(function(d) { return d[0]; })
-				// 	    .y(function(d) { return d[1]; })
-				// 	    .intra
-				// 	    ;
-
-				// 	svgCanvas.append('path')
-				//     .attr("d", bezierLine([[0, 40], [25, 70], [50, 100], [100, 50], [150, 20], [200, 130], [300, 120]]))
-				//     .attr("stroke", "red")
-				//     .attr("stroke-width", 1)
-				//     .attr("fill", "none");
+				.style("stroke","#999999")
+				.style("stroke-width","2px")
+				.style("stroke-dasharray", [10,5])
+				.attr("d",function(d,i){ return lineGenerator(dataArray); });
 			}
 
 
