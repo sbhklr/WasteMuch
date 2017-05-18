@@ -84,16 +84,30 @@
 				
 			}
 
-			function drawMainInterface(){				
-				var width = 800, height = 600;
-				var colors = ["#6994B0", "#44708D", "#29536F","#153950", "#072132"];
+			function sortByPosition(a, b){
+			  if (a.y == b.y) return a.x - b.x;
+			  return a.y - b.y;
+			}
 
-				var svgCanvas = d3.select("#map");
-				svgCanvas.selectAll("g").style("opacity", 0);
-				svgCanvas.selectAll("g").transition()
-					.duration(1000)
-					.delay(function(d,i) { return i * 5; })
+			function drawMainInterface(){								
+				var svgCanvas = d3.select("#map");			
+				svgCanvas.selectAll("circle").style("opacity", 0);
+				var circles = svgCanvas.selectAll("circle");
+
+				circles.each(function(d,i){					
+					var circle = d3.select(this);
+					circle.data([{"x" : circle.attr("cx"), "y" : circle.attr("cy")}]);
+				});
+
+				var sortedCircles = circles.sort(function(a,b){					
+					return sortByPosition(a,b);
+				});
+
+				sortedCircles.transition()
+					.duration(250)
+					.delay(function(d,i) { return i * 0.5; })
 					.style("opacity", 1);
+
 				//registerMouseEvents();
 			}
 
