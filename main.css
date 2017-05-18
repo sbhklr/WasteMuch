@@ -96,6 +96,10 @@ body {
    background-color: #CABBB0;
 }
 
+#content-header {
+   border-bottom: 1px solid #666666;
+}
+
 #start-button {
    background-color: #000000;
    border: none;
