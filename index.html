@@ -19,7 +19,7 @@
 					Addressing our global food challenges demands that all of us become more thoughtful about the food we put on our plates and consider our contribution towards feeding the world in the future.
 				</div>
 				<br />
-				<button id="start-button" onclick="selectComparisonCountry()">Start</button>
+				<button id="start-button" onclick="selectTargetCountry()">Start</button>
 			</div>
 			<div id="content-container" style="display: none;">
 				<div id="sidebar">
@@ -31,7 +31,7 @@
 				        <text id="waste-descriptor" class="descripton" x="45" y="400">Label 5</text>
 				        <text id="feed-descriptor" class="descripton" x="45" y="450">Label 6</text>	
 					</svg>
-					<form id="country-form" onSubmit="return selectCountry()" action="">
+					<form id="country-form" onSubmit="return applyOriginCountry()" action="">
 			            <input type="text" class="headline" id="country-field" placeholder="country">
 			        </form>	
 				</div>
@@ -50,8 +50,9 @@
 			Global variables
 			*/
 			var mapCanvas;
-			var selectedCountry;
-			var comparisonCountry;		
+			var sidebarCanvas;
+			var originCountry;
+			var targetCountry;				
 
 			/**
 			Load Data
@@ -92,47 +93,41 @@
 				$(document).ready(function() {					
 					
 				});
-			}
-			
+			}			
+
 			function registerMouseEvents(){				
 				mapCanvas.selectAll("g").on("mouseover", function(){					
 					var countryISO = this.id;					
-					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID || countryISO == selectedCountry) return;
-						
-					var country = d3.select(this);					
-					var circles = country.selectAll("circle");
-					circles.attr("class", "circle circle-selected circle-" + countryISO);							
+					highlightCountry(countryISO);							
 				}).on("mouseout", function(){
 					var countryISO = this.id;			
-					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID || countryISO == selectedCountry) return;
-
-					var country = d3.select(this);					
-					var circles = country.selectAll("circle");					
-					country.selectAll("circle").attr("class", "circle circle-deselected");					
+					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID || countryISO == originCountry) return;
+					unhighlightCountry(countryISO);
 				}). on("click", function(){					
 					var countryISO = this.id;
 					//TODO just add click to groups with ID
-					if(!countryISO) return;					
+					if(!countryISO) return;	
+					unhighlightCountry(targetCountry, true);														
+					targetCountry = countryISO;
 					displayInfo(countryISO);
 				});
 			}
 
-			function selectCountry(event){
+			function applyOriginCountry(event){
 				//TODO
 				var requestedCountry = document.getElementById("country-field").value.toLowerCase();
 				if(requestedCountry == "australia"){				
 					var country = mapCanvas.select("#AU");
-					selectedCountry = "AU";
+					originCountry = "AU";
 
-					mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");				
-					var circles = country.selectAll("circle");
-					circles.attr("class", "circle circle-AU circle-selected");					
+					mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");									
+					highlightCountry(originCountry);					
 					registerMouseEvents();
 				}
 				return false;
 			}
 
-			function selectComparisonCountry(){
+			function selectTargetCountry(){
 				d3.select("body").transition().duration(500).style("background-color","white");
 				var startScreen = d3.select("#start-screen");
 				startScreen.transition().duration(500).style("opacity", 0)
@@ -144,7 +139,25 @@
 			}
 
 			function displayInfo(countryISO){
-				console.log("Comparing " + selectedCountry + " and " + countryISO);
+				console.log("Comparing " + originCountry + " and " + countryISO);				
+				//TODO
+			}
+
+			function highlightCountry(countryISO){							
+				if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID) return;
+					
+				var country = mapCanvas.select("g#"+countryISO);					
+				var circles = country.selectAll("circle");
+				circles.attr("class", "circle circle-selected color-" + countryISO);	
+			}
+
+			function unhighlightCountry(countryISO, enforce = false){
+				if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID) return;
+				if(!enforce && (countryISO == originCountry || countryISO == targetCountry)) return;
+					
+				var country = mapCanvas.select("g#"+countryISO);									
+				var circles = country.selectAll("circle");					
+				country.selectAll("circle").attr("class", "circle circle-deselected");
 			}
 
 			function drawMainInterface(){					
@@ -164,8 +177,8 @@
 			}
 		
 			function drawSidebar(){				
-				var sidebar=d3.select("#sidebar-canvas");
-				var title = sidebar.append("text")
+				var sidebarCanvas=d3.select("#sidebar-canvas");
+				var title = sidebarCanvas.append("text")
 				.attr("class", "title")
 				.attr("x", 45)
 				.attr("y", 45)
