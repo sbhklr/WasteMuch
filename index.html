@@ -22,6 +22,7 @@
 				<button id="start-button" onclick="selectTargetCountry()">Start</button>
 			</div>
 			<div id="content-container" style="display: none;">
+				<div id="content-header">Feed the World</div>
 				<div id="sidebar">
 					<svg id="sidebar-canvas" width="100%" height="100%">
 						<g>
@@ -65,9 +66,17 @@
 			/**
 			Load Data
 			*/
-			var foodWasteData = [{
+			var foodWasteData = [
+			{
 				iso : "DK",
-				valueMillions: "2343.5",
+				valueMillions: "25849",
+				currency: "DKK",
+				year: 2009
+			},
+			{
+				iso : "AU",
+				valueMillions: "847",
+				currency: "AUD",
 				year: 2009
 			}];
 
@@ -150,6 +159,19 @@
 				console.log("Comparing " + originCountry + " and " + countryISO);				
 				sidebarCanvas.select("#waste-headline")
 				.text("20000 DKK");
+
+			}
+
+			function getWastedMoney(countryISO){
+				var map = d3.map(foodWasteData, function(d) { return d.iso; });				
+				return map.get(countryISO).valueMillions;	
+			}
+
+			function getCountryName(countryISO){
+
+			}
+
+			function getFeededPeople(countryISO, money){
 
 			}
 
