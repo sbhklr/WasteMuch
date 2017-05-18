@@ -8,7 +8,7 @@ Layout definitions
 }
 
 div {
-   border: 1px #ddd solid;
+   border: 1px #ddd dotted;
 }
 
 #main-container{
@@ -40,15 +40,11 @@ div {
 
 #country-field{
    border: none;
-   height:50px;
-   width:245px;
-   top:50px;
-
-
-
-
-  
+   height: 55px;
+   width: 245px;
+   top: 50px;
 }
+
 :focus{
    outline: 0;
 }
@@ -57,8 +53,75 @@ div {
 Style definitions
 */
 .circle {   
-   fill: #CABBB0;
+   fill: #CABBB0;   
 }
+
+.circle-selected {
+   opacity: 1.0;
+}
+
+.circle-deselected {
+   opacity: 0.35;
+}
+
+.circle-AR { fill: #FD773A; }
+.circle-AU { fill: #FC793B; }
+.circle-BR { fill: #FB7B3C; }
+.circle-UK { fill: #FA7C3D; }
+.circle-CA { fill: #F97E3E; }
+.circle-CL { fill: #F8803F; }
+.circle-CN { fill: #F78240; }
+.circle-CO { fill: #F68341; }
+.circle-CR { fill: #F58542; }
+.circle-CZ { fill: #F48743; }
+.circle-DK { fill: #F38944; }
+.circle-EG { fill: #F18A44; }
+.circle-EU { fill: #F08C45; }
+.circle-HK { fill: #EF8E46; }
+.circle-HU { fill: #EE8F47; }
+.circle-IN { fill: #ED9148; }
+.circle-ID { fill: #EC9349; }
+.circle-IL { fill: #EB954A; }
+.circle-JP { fill: #EA964B; }
+.circle-LV { fill: #E9984C; }
+.circle-LT { fill: #E89A4D; }
+.circle-MY { fill: #E99C4C; }
+.circle-MX { fill: #EA9D4B; }
+.circle-NZ { fill: #EB9F4A; }
+.circle-NO { fill: #EDA149; }
+.circle-PK { fill: #EEA248; }
+.circle-PE { fill: #EFA447; }
+.circle-PH { fill: #F0A646; }
+.circle-PL { fill: #F1A745; }
+.circle-RU { fill: #F2A944; }
+.circle-SA { fill: #F4AB43; }
+.circle-SG { fill: #F5AC42; }
+.circle-ZA { fill: #F6AE41; }
+.circle-KR { fill: #F7AF40; }
+.circle-LK { fill: #F8B13F; }
+.circle-SE { fill: #F9B33E; }
+.circle-CH { fill: #FAB43D; }
+.circle-TW { fill: #FCB63C; }
+.circle-TH { fill: #FDB83B; }
+.circle-TR { fill: #FEB93A; }
+.circle-AE { fill: #FFBB39; }
+.circle-UA { fill: #FCBC39; }
+.circle-US { fill: #FBBC39; }
+.circle-UY { fill: #F9BC39; }
+.circle-VE { fill: #F8BD39; }
+.circle-VN { fill: #F6BD39; }
+.circle-AT { fill: #F5BD39; }
+.circle-BE { fill: #F3BE39; }
+.circle-EE { fill: #F2BE3A; }
+.circle-FI { fill: #F1BE3A; }
+.circle-FR { fill: #EFBF3A; }
+.circle-DE { fill: #EEBF3A; }
+.circle-GR { fill: #ECBF3A; }
+.circle-IE { fill: #EBC03A; }
+.circle-IT { fill: #E9C03A; }
+.circle-NL { fill: #E8C03A; }
+.circle-PT { fill: #E5C13A; }
+.circle-ES { fill: #E9CE3A; }
 
 /**
 Font definitions

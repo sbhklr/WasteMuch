@@ -4,16 +4,24 @@
 		<meta charset="utf-8">
 		<title></title>
 		<script type="text/javascript" src="libs/d3.v4.js"></script>
+		<script type="text/javascript" src="libs/jquery-3.2.1.js"></script>
 		<link rel="stylesheet" href="main.css" />
 	</head>
 
 	<body>
 		<div id="main-container">
 			<div id="sidebar">
-				<svg id="sidebar-canvas" width="100%" height="100%"></svg>
-				  <form id="country-form" onSubmit="return handleClick()">
+				<svg id="sidebar-canvas" width="100%" height="100%">
+					<text class="" x="45" y="200">Label 1</text>
+			        <text class="" x="45" y="250">Label 2</text>
+			        <text class="" x="45" y="300">Label 3</text>
+			        <text class="" x="45" y="350">Label 4</text>
+			        <text class="" x="45" y="400">Label 5</text>
+			        <text class="" x="45" y="450">Label 6</text>	
+				</svg>
+				<form id="country-form" onSubmit="return selectCountry()" action="">
 		            <input type="text" class="headline" id="country-field" placeholder="country">
-		        </form>
+		        </form>		        
 			</div>
 			<div id="map-container"></div>
 		</div>
@@ -21,9 +29,15 @@
 		<script type="text/javascript">
 
 			/**
+			Constants
+			*/						
+
+			/**
 			Global variables
 			*/
-			var mapCanvas;			
+			var mapCanvas;
+			var selectedCountry;
+			var comparisonCountry;		
 
 			/**
 			Load Data
@@ -56,6 +70,9 @@
 			function setup(){
 				registerMouseEvents();
 				drawMainInterface();
+				$(document).ready(function() {					
+					$("#country-field").focus();
+				});
 			}
 
 			function sortByPosition(a, b){
@@ -65,15 +82,29 @@
 
 			function registerMouseEvents(){				
 				mapCanvas.selectAll("g").on("mouseover", function(){
-					console.log(this.id);
-					var country = d3.select(this);
-					country.selectAll("circle").attr("class", "circle circle-hover");
+					var countryISO = this.id;					
+					var country = d3.select(this);					
+					var circles = country.selectAll("circle");
+					circles.attr("class", "circle circle-selected circle-" + countryISO);
+					console.log(countryISO);			
 				}).on("mouseout", function(){
-					var country = d3.select(this);
-					country.selectAll("circle").attr("class", "circle");
+					var countryISO = this.id;					
+					var country = d3.select(this);					
+					var circles = country.selectAll("circle");					
+					country.selectAll("circle").attr("class", "circle circle-deselected");					
 				});
+			}
 
-				
+			function selectCountry(event){
+				//TODO
+				var country = mapCanvas.select("#AU");
+				selectedCountry = "AU";
+
+				mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");				
+				var circles = country.selectAll("circle");
+				circles.attr("class", "circle circle-AU circle-selected");
+				// console.log(document.getElementById("country-field").value);
+				return false;
 			}
 
 			function drawMainInterface(){												
@@ -84,8 +115,12 @@
 			
 				circles.transition()
 					.duration(250)
-					.delay(function(d,i) { return i * 0.5; })
-					.style("opacity", 1);
+					.delay(function(d,i) { return i * 0.5; })					
+					.style("opacity", 1).on("end", function(d,i){
+						if(i == circles.size() -1){
+							circles.style("opacity","");							
+						}
+					});
 				
 				drawCurve(0,0, 100, 50);
 				drawSidebar();
@@ -110,18 +145,13 @@
 			}
 
 
-			function drawSidebar(){
-				//TODO
+			function drawSidebar(){				
 				var sidebar=d3.select("#sidebar-canvas");
 				var title = sidebar.append("text")
 				.attr("class", "title")
 				.attr("x", 45)
 				.attr("y", 45)
 				.text("I live in");
-
-
-
-
 			}
 
 		</script>
