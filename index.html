@@ -1,0 +1,102 @@
+<!DOCTYPE html> 
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript" src="libs/d3.v4.js"></script>
+		
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			svg{ 				
+			}
+
+			.labels{
+				font: Gotham;
+				size: 10pt;
+			}
+
+			#container{
+				width:800px;
+				height:515px;
+				border: 10px black solid;
+				margin: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="container"></div>
+
+		<script type="text/javascript">
+
+			/**
+			Load Data
+			*/
+			var foodWasteData = [{
+				iso : "DK",
+				valueMillions: "2343.5",
+				year: 2009
+			}];
+
+			var bigMacIDX;
+
+			d3.csv("BigMacIDX.csv", function(data){ 
+				bigMacIDX = data;
+				//console.log(data[0]);
+			});		
+
+			/**
+			Load Resources
+			*/
+			d3.xml("resources/WorldMap_COUNTRYCODE.svg").mimeType("image/svg+xml").get(function(error, xml) {
+			  if (error) throw error;
+			  var svg = xml.documentElement;
+			  svg.id = "map";
+			  document.getElementById("container").appendChild(svg);	
+			  drawMainInterface();		  
+			});
+
+			function registerMouseEvents(){			
+
+				var centerPoint = d3.select("#AU-Center");
+				d3.select("#map").on("mousemove", function() {
+					var coordinates = [0, 0];
+					coordinates = d3.mouse(this);
+					var x = coordinates[0];
+					var y = coordinates[1];
+					console.log(coordinates);
+
+					var bezierLine = d3.svg.line()
+					    .x(function(d) { return d[0]; })
+					    .y(function(d) { return d[1]; })
+					    .interpolate("basis");
+
+					svg.append('path')
+				    .attr("d", bezierLine([[0, 40], [25, 70], [50, 100], [100, 50], [150, 20], [200, 130], [300, 120]]))
+				    .attr("stroke", "red")
+				    .attr("stroke-width", 1)
+				    .attr("fill", "none");
+
+				});
+				
+			}
+
+			function drawMainInterface(){				
+				var width = 800, height = 600;
+				var colors = ["#6994B0", "#44708D", "#29536F","#153950", "#072132"];
+
+				var svgCanvas = d3.select("#map");
+				svgCanvas.selectAll("g").style("opacity", 0);
+				svgCanvas.selectAll("g").transition()
+					.duration(1000)
+					.delay(function(d,i) { return i * 5; })
+					.style("opacity", 1);
+				//registerMouseEvents();
+			}
+
+		</script>
+	</body>
+</html>
