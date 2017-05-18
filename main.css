@@ -8,7 +8,18 @@ Layout definitions
 }
 
 div {
-   border: 1px #ddd dotted;
+   border: 0px #efefef dotted;
+}
+
+#start-screen {
+   position: absolute;
+   left: 55px;
+   top: 55px;
+   z-index: 1000;
+}
+
+#start-screen-text {
+   width: 440px;
 }
 
 #main-container{
@@ -22,7 +33,7 @@ div {
 #sidebar {
    width: 300px;
    height: 650px;
-   position: absolute;
+   position: absolute;   
 }
 
 #map-container {
@@ -52,6 +63,19 @@ div {
 /**
 Style definitions
 */
+
+body {
+   background-color: #CABBB0;
+}
+
+#start-button {
+
+}
+
+#start-screen-text{
+   
+}
+
 .circle {   
    fill: #CABBB0;   
 }
