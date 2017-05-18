@@ -4,33 +4,21 @@
 		<meta charset="utf-8">
 		<title></title>
 		<script type="text/javascript" src="libs/d3.v4.js"></script>
-		
-		<style type="text/css">
-			* {
-				margin: 0;
-				padding: 0;
-			}
-			svg{ 				
-			}
-
-			.labels{
-				font: Gotham;
-				size: 10pt;
-			}
-
-			#container{
-				width:800px;
-				height:515px;
-				border: 10px black solid;
-				margin: auto;
-			}
-		</style>
+		<link rel="stylesheet" href="main.css" />
 	</head>
 
 	<body>
-		<div id="container"></div>
+		<div id="main-container">
+			<div id="sidebar"></div>
+			<div id="map-container"></div>
+		</div>
 
 		<script type="text/javascript">
+
+			/**
+			Global variables
+			*/
+			var svgCanvas;
 
 			/**
 			Load Data
@@ -55,7 +43,8 @@
 			  if (error) throw error;
 			  var svg = xml.documentElement;
 			  svg.id = "map";
-			  document.getElementById("container").appendChild(svg);	
+			  document.getElementById("map-container").appendChild(svg);
+			  svgCanvas = d3.select("#map");
 			  drawMainInterface();		  
 			});
 
@@ -68,18 +57,6 @@
 					var x = coordinates[0];
 					var y = coordinates[1];
 					console.log(coordinates);
-
-					var bezierLine = d3.svg.line()
-					    .x(function(d) { return d[0]; })
-					    .y(function(d) { return d[1]; })
-					    .interpolate("basis");
-
-					svg.append('path')
-				    .attr("d", bezierLine([[0, 40], [25, 70], [50, 100], [100, 50], [150, 20], [200, 130], [300, 120]]))
-				    .attr("stroke", "red")
-				    .attr("stroke-width", 1)
-				    .attr("fill", "none");
-
 				});
 				
 			}
@@ -89,26 +66,93 @@
 			  return a.y - b.y;
 			}
 
-			function drawMainInterface(){								
-				var svgCanvas = d3.select("#map");			
+			function link(d) {
+			  return "M" + d.source.y + "," + d.source.x
+			      + "C" + (d.source.y + d.target.y) / 2 + "," + d.source.x
+			      + " " + (d.source.y + d.target.y) / 2 + "," + d.target.x
+			      + " " + d.target.y + "," + d.target.x;
+			}
+
+			function drawMainInterface(){												
 				svgCanvas.selectAll("circle").style("opacity", 0);
 				var circles = svgCanvas.selectAll("circle");
 
-				circles.each(function(d,i){					
-					var circle = d3.select(this);
-					circle.data([{"x" : circle.attr("cx"), "y" : circle.attr("cy")}]);
-				});
+				// circles.each(function(d,i){					
+				// 	var circle = d3.select(this);
+				// 	circle.data([{"x" : circle.attr("cx"), "y" : circle.attr("cy")}]);
+				// });
 
-				var sortedCircles = circles.sort(function(a,b){					
-					return sortByPosition(a,b);
-				});
+				// var sortedCircles = circles.sort(function(a,b){					
+				// 	return sortByPosition(a,b);
+				// });
 
-				sortedCircles.transition()
+				// sortedCircles.transition()
+				// 	.duration(250)
+				// 	.delay(function(d,i) { return i * 0.5; })
+				// 	.style("opacity", 1).on("end", function(d,i){
+				// 		if(i == sortedCircles.size() - 1){							
+				// 			//Finished
+				// 		}
+				// 	});
+
+				circles.transition()
 					.duration(250)
 					.delay(function(d,i) { return i * 0.5; })
 					.style("opacity", 1);
 
-				//registerMouseEvents();
+				registerMouseEvents();
+				drawCurve();
+				drawSidebar();
+			}
+
+			function drawCurve(){
+
+				var dataArray = [{x:5, y:5},{x:10, y:15},{x:20, y:7},{x:30, y:18},{x:40, y:10}];				
+				var group = svgCanvas.append("g").attr("class","group1");
+
+				// svgCanvas.append("path")			      
+			 //      .attr("class", "line")
+			 //      .style("stroke", "red")
+			 //      .attr("id", 'tag')
+			 //      .attr("d", d3.line()
+			 //                   .curve(d3.curveBasis)
+			 //                   .x(function(d) { return 100; })
+			 //                   .y(function(d) { return 100; })
+			 //               );
+
+
+				var newX = -270;
+				var newY = 20;
+				var baselineY = 100;
+			 	
+			    var line0 = d3.line()
+			    .x(function(d) { return newX + (d.x * 5); })
+			    .y(function(d) { return newY + baselineY - (d.y * 5); })
+			    .curve(d3.curveNatural);
+
+			    group.append("path")
+				.style("fill","none")
+				.style("stroke","red")
+				.style("stroke-width","4px")
+				.attr("d",function(d,i){ return line0(dataArray); });
+
+
+				// var bezierLine = d3.line()
+				// 	    .x(function(d) { return d[0]; })
+				// 	    .y(function(d) { return d[1]; })
+				// 	    .intra
+				// 	    ;
+
+				// 	svgCanvas.append('path')
+				//     .attr("d", bezierLine([[0, 40], [25, 70], [50, 100], [100, 50], [150, 20], [200, 130], [300, 120]]))
+				//     .attr("stroke", "red")
+				//     .attr("stroke-width", 1)
+				//     .attr("fill", "none");
+			}
+
+
+			function drawSidebar(){
+				//TODO
 			}
 
 		</script>

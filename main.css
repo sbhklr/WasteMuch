@@ -1,0 +1,95 @@
+/**
+Layout definitions
+*/
+
+* {
+   margin: 0;
+   padding: 0;
+}
+
+div {
+   border: 1px #ddd solid;
+}
+
+#main-container{
+   width:1200px;
+   height:650px;   
+   margin: auto;
+   margin-top: 45px;
+   position: relative;
+}
+
+#sidebar {
+   width: 300px;
+   height: 650px;
+   position: absolute;
+}
+
+#map-container {
+   width: 900px;
+   height: 650px;
+   position: absolute;
+   left: 300px;
+}
+
+
+/**
+Font definitions
+*/
+
+html {
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+   font-family: "FF Meta Pro", sans serif;
+   font-size: 38px;
+   font-weight: bold;
+   line-height: 1.85;
+   opacity: 1.00;
+   margin-top: 0px;
+   margin-bottom: 10px;
+   letter-spacing: -1.00px;
+   word-spacing: -0.40px;
+   text-transform: none;
+}
+
+h2 {
+   font-family: "FF Meta Pro", sans serif;
+   font-size: 20px;
+   font-weight: 700;
+   line-height: 1.30;
+   opacity: 0.65;
+   margin-top: 30px;
+   margin-bottom: 5px;
+   letter-spacing: -0.49px;
+   word-spacing: 0.40px;
+   text-transform: none;
+}
+
+h3 {
+   font-family: "FF Meta Pro", sans serif;
+   font-size: 25px;
+   font-weight: 400;
+   line-height: 1.20;
+   opacity: 1.00;
+   margin-top: 30px;
+   margin-bottom: 5px;
+   letter-spacing: -0.17px;
+   word-spacing: 0.00px;
+   text-transform: none;
+}
+
+p {
+   font-family: "ff-meta-serif-web-pro", sans serif;
+   font-size: 18px;
+   font-weight: 500;
+   line-height: 1.45;
+   opacity: 0.50;
+   margin-top: 0px;
+   margin-bottom: 25px;
+   letter-spacing: -0.23px;
+   word-spacing: -0.30px;
+   text-transform: none;
+}
