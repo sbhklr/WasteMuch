@@ -32,6 +32,27 @@ div {
    left: 300px;
 }
 
+#country-form{
+   position: absolute;
+   top: 60px;
+   left: 42px;
+}
+
+#country-field{
+   border: none;
+   height:50px;
+   width:245px;
+   top:50px;
+
+
+
+
+  
+}
+:focus{
+   outline: 0;
+}
+
 
 /**
 Font definitions
@@ -42,10 +63,22 @@ html {
    -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
+.title {
    font-family: "FF Meta Pro", sans serif;
-   font-size: 38px;
-   font-weight: bold;
+   font-size: 30px;
+   font-weight: normal;
+   line-height: 1.85;
+   opacity: 1.00;
+   margin-top: 0px;
+   margin-bottom: 10px;
+   word-spacing: -0.40px;
+   text-transform: none;
+}
+
+.headline{
+   font-family: "FF Meta Pro", sans serif;
+   font-size: 56px;
+   font-weight: Regular;
    line-height: 1.85;
    opacity: 1.00;
    margin-top: 0px;
@@ -54,6 +87,7 @@ h1 {
    word-spacing: -0.40px;
    text-transform: none;
 }
+
 
 h2 {
    font-family: "FF Meta Pro", sans serif;

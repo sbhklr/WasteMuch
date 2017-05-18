@@ -9,7 +9,12 @@
 
 	<body>
 		<div id="main-container">
-			<div id="sidebar"></div>
+			<div id="sidebar">
+				<svg id="sidebar-canvas" width="100%" height="100%"></svg>
+				  <form id="country-form" onSubmit="return handleClick()">
+		            <input type="text" class="headline" id="country-field" placeholder="country">
+		        </form>
+			</div>
 			<div id="map-container"></div>
 		</div>
 
@@ -153,8 +158,19 @@
 
 			function drawSidebar(){
 				//TODO
+				var sidebar=d3.select("#sidebar-canvas");
+				var title = sidebar.append("text")
+				.attr("class", "title")
+				.attr("x", 45)
+				.attr("y", 45)
+				.text("I live in");
+
+
+
+
 			}
 
 		</script>
 	</body>
+
 </html>
