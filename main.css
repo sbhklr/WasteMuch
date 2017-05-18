@@ -53,6 +53,12 @@ div {
    outline: 0;
 }
 
+/**
+Style definitions
+*/
+.circle {   
+   fill: #CABBB0;
+}
 
 /**
 Font definitions
