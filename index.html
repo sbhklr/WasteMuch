@@ -100,8 +100,7 @@
 						
 					var country = d3.select(this);					
 					var circles = country.selectAll("circle");
-					circles.attr("class", "circle circle-selected circle-" + countryISO);
-					console.log(countryISO);			
+					circles.attr("class", "circle circle-selected circle-" + countryISO);							
 				}).on("mouseout", function(){
 					var countryISO = this.id;			
 					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID || countryISO == selectedCountry) return;
@@ -109,8 +108,11 @@
 					var country = d3.select(this);					
 					var circles = country.selectAll("circle");					
 					country.selectAll("circle").attr("class", "circle circle-deselected");					
-				}). on("click", function(){
-					console.log("Clicked");
+				}). on("click", function(){					
+					var countryISO = this.id;
+					//TODO just add click to groups with ID
+					if(!countryISO) return;					
+					displayInfo(countryISO);
 				});
 			}
 
@@ -123,8 +125,7 @@
 
 					mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");				
 					var circles = country.selectAll("circle");
-					circles.attr("class", "circle circle-AU circle-selected");
-					// console.log();
+					circles.attr("class", "circle circle-AU circle-selected");					
 					registerMouseEvents();
 				}
 				return false;
@@ -139,6 +140,10 @@
 					drawMainInterface();					
 					d3.select("#country-field").node().focus();
 				});
+			}
+
+			function displayInfo(countryISO){
+				console.log("Comparing " + selectedCountry + " and " + countryISO);
 			}
 
 			function drawMainInterface(){					
