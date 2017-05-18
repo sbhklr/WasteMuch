@@ -23,7 +23,7 @@
 			/**
 			Global variables
 			*/
-			var svgCanvas;
+			var mapCanvas;			
 
 			/**
 			Load Data
@@ -49,18 +49,38 @@
 			  var svg = xml.documentElement;
 			  svg.id = "map";
 			  document.getElementById("map-container").appendChild(svg);
-			  svgCanvas = d3.select("#map");
-			  drawMainInterface();		  
+			  mapCanvas = d3.select("#map");
+			  setup();
 			});			
+
+			function setup(){
+				registerMouseEvents();
+				drawMainInterface();
+			}
 
 			function sortByPosition(a, b){
 			  if (a.y == b.y) return a.x - b.x;
 			  return a.y - b.y;
 			}
 
+			function registerMouseEvents(){				
+				mapCanvas.selectAll("g").on("mouseover", function(){
+					console.log(this.id);
+					var country = d3.select(this);
+					country.selectAll("circle").attr("class", "circle circle-hover");
+				}).on("mouseout", function(){
+					var country = d3.select(this);
+					country.selectAll("circle").attr("class", "circle");
+				});
+
+				
+			}
+
 			function drawMainInterface(){												
-				svgCanvas.selectAll("circle").style("opacity", 0);
-				var circles = svgCanvas.selectAll("circle");
+				mapCanvas.selectAll("circle")
+					.style("opacity", 0)
+					.attr("class", "circle");
+				var circles = mapCanvas.selectAll("circle");
 			
 				circles.transition()
 					.duration(250)
@@ -74,7 +94,7 @@
 			function drawCurve(fromX, fromY, toX, toY){
 
 				var dataArray = [{x:fromX, y:fromY},{x:toX / 2, y:fromY + 50},{x:toX, y:toY}];				
-				var group = svgCanvas.append("g").attr("class","group1");
+				var group = mapCanvas.append("g").attr("class","group1");
 
 			 	var lineGenerator = d3.line()
                          .x(function(d) { return d.x; })
