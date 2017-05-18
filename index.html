@@ -24,12 +24,20 @@
 			<div id="content-container" style="display: none;">
 				<div id="sidebar">
 					<svg id="sidebar-canvas" width="100%" height="100%">
-						<text id="current-location" class="title" x="45" y="200">Label 1</text>
-				        <text id="feed-location" class="title" x="45" y="250">Label 2</text>
-				        <text id="waste-headline" class="headline-bold" x="45" y="300">Label 3</text>
-				        <text id="feed-headline" class="headline-bold" x="45" y="350">Label 4</text>
-				        <text id="waste-descriptor" class="descripton" x="45" y="400">Label 5</text>
-				        <text id="feed-descriptor" class="descripton" x="45" y="450">Label 6</text>	
+						<g>
+							<circle id="current-pin" fill="#FFBB39" cx="48" cy="30" r="5"/>
+							<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="48" y1="60" x2="48" y2="71"/>
+
+							<circle id="feed-pin" fill="#FFBB39" cx="48" cy="622" r="5"/>
+							<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="48" y1="625" x2="48" y2="636"/>
+						</g>
+						<text id="current-location" class="title" x="65" y="45">Label 1</text>
+				        <text id="feed-location" class="title" x="65" y="635">Label 2</text>
+				        <text id="waste-headline" class="headline-bold" x="44" y="130">Label 3</text>
+				        <text id="feed-headline" class="headline-bold" x="44" y="465">
+				        Label 4</text>
+				        <text id="waste-descriptor" class="descripton" x="45" y="160">Label 5</text>
+				        <text id="feed-descriptor" class="descripton" x="45" y="420">Label 6</text>	
 					</svg>
 					<form id="country-form" onSubmit="return applyOriginCountry()" action="">
 			            <input type="text" class="headline" id="country-field" placeholder="country">
@@ -140,7 +148,9 @@
 
 			function displayInfo(countryISO){
 				console.log("Comparing " + originCountry + " and " + countryISO);				
-				//TODO
+				sidebarCanvas.select("#waste-headline")
+				.text("20000 DKK");
+
 			}
 
 			function highlightCountry(countryISO){							
@@ -177,7 +187,7 @@
 			}
 		
 			function drawSidebar(){				
-				var sidebarCanvas=d3.select("#sidebar-canvas");
+				sidebarCanvas=d3.select("#sidebar-canvas");
 				var title = sidebarCanvas.append("text")
 				.attr("class", "title")
 				.attr("x", 45)
