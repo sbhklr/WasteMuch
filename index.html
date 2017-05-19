@@ -70,6 +70,7 @@
 			Constants
 			*/						
 			var UNKNOWN_COUNTRY_ID = "REST_OF_THE_WORLD";
+			var MILLIONS_ABBREV = "MM";
 
 			/**
 			Global variables
@@ -206,7 +207,7 @@
 					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
 					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
 					
-					sidebarCanvas.select("#waste-headline-amount").text(getWastedMoney(originCountry));
+					sidebarCanvas.select("#waste-headline-amount").text(getWastedMoney(originCountry) + " " + MILLIONS_ABBREV);
 					sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
 					sidebarCanvas.select("#current-location").text(getCountryName(originCountry));
 
@@ -261,7 +262,7 @@
 				var duration = 1000;
 				var interval = 25;
 				var counter = 0;
-				var limit = number;
+				var limit = number;				
 				var step = Math.ceil(limit / (duration / interval));
 
 				var timer = setInterval(function(){
