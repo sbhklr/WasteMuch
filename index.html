@@ -19,26 +19,35 @@
 					Addressing our global food challenges demands that all of us become more thoughtful about the food we put on our plates and consider our contribution towards feeding the world in the future.
 				</div>
 				<br />
-				<button id="start-button" onclick="selectTargetCountry()">Start</button>
+				<button id="start-button" onclick="enableSelectTargetCountry()">Start</button>
 			</div>
 			<div id="content-container" style="display: none;">
 				<div id="content-header">Feed the World</div>
 				<div id="sidebar">
 					<svg id="sidebar-canvas" width="100%" height="100%">
-						<g>
-							<circle id="current-pin" fill="#FFBB39" cx="48" cy="30" r="5"/>
-							<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="48" y1="60" x2="48" y2="71"/>
-
-							<circle id="feed-pin" fill="#FFBB39" cx="48" cy="622" r="5"/>
-							<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="48" y1="625" x2="48" y2="636"/>
-						</g>
-						<text id="current-location" class="title" x="65" y="45">Label 1</text>
-				        <text id="feed-location" class="title" x="65" y="635">Label 2</text>
-				        <text id="waste-headline" class="headline-bold" x="44" y="130">Label 3</text>
-				        <text id="feed-headline" class="headline-bold" x="44" y="465">
-				        Label 4</text>
-				        <text id="waste-descriptor" class="descripton" x="45" y="160">Label 5</text>
-				        <text id="feed-descriptor" class="descripton" x="45" y="420">Label 6</text>	
+						<text id="country-field-title" class="title" x="45" y="45">I live in</text>
+						<g id="description-fields-origin">
+							<g>
+								<line x1="48" y1="35" x2="48" y2="46" style="stroke:rgb(0,0,0);stroke-width:1" />
+								<circle id="current-pin" fill="#CCCCCC" cx="48" cy="30" r="5" />
+							</g>
+							<text id="current-location" class="title" x="65" y="45">Origin</text>
+					        <text id="waste-headline" class="headline-bold" x="44" y="130">1234</text>					        
+					        <text id="waste-descriptor" class="descripton" x="45" y="160">				        
+						        <tspan x="45" dy="1.2em">worth of food</tspan>
+		    					<tspan x="45" dy="1.2em">is wasted every</tspan>
+		    					<tspan x="45" dy="1.2em">year in Denmark</tspan>
+					        </text>					        
+				        </g>
+				        <g id="description-fields-target">
+				        	<text id="feed-descriptor" class="descripton" x="45" y="420">which could feed</text>	
+					        <text id="feed-headline" class="headline-bold" x="44" y="465">People fed</text>
+					        <text id="feed-location" class="title" x="65" y="635">Target</text>
+					        <g>
+								<line x1="48" y1="625" x2="48" y2="636" style="stroke:rgb(0,0,0);stroke-width:1" />
+					        	<circle id="feed-pin" fill="#CCCCCC" cx="48" cy="622" r="5" />
+					        </g>
+				        </g>
 					</svg>
 					<form id="country-form" onSubmit="return applyOriginCountry()" action="">
 			            <input type="text" class="headline" id="country-field" placeholder="country">
@@ -61,12 +70,15 @@
 			var mapCanvas;
 			var sidebarCanvas;
 			var originCountry;
-			var targetCountry;				
+			var targetCountry;	
+
+			var foodWasteData;			
+			var bigMacIDXData;
 
 			/**
 			Load Data
-			*/
-			var foodWasteData = [
+			*/			
+			var foodWasteDataRaw = [
 			{
 				iso : "DK",
 				valueMillions: "25849",
@@ -78,13 +90,10 @@
 				valueMillions: "847",
 				currency: "AUD",
 				year: 2009
-			}];
+			}];			
 
-			var bigMacIDX;
-
-			d3.csv("BigMacIDX.csv", function(data){ 
-				bigMacIDX = data;
-				//console.log(data[0]);
+			d3.csv("resources/BigMacIDX.csv", function(data){ 
+				bigMacIDXData = d3.map(data, function(d){ return d.iso; });				
 			});		
 
 			/**
@@ -94,22 +103,25 @@
 			  if (error) throw error;
 			  var svg = xml.documentElement;
 			  svg.id = "map";
-			  document.getElementById("map-container").appendChild(svg);
-			  mapCanvas = d3.select("#map");
+			  document.getElementById("map-container").appendChild(svg);			  
 			  setup();
 			});			
 
-			function setup(){			
+			function setup(){	
+				mapCanvas = d3.select("#map");
+			  	sidebarCanvas=d3.select("#sidebar-canvas");		
 				d3.select("#content-container").style("opacity",0);
 				d3.select("#content-container").style("display","block");
+				sidebarCanvas.select("#description-fields-origin").style("opacity",0);
+				sidebarCanvas.select("#description-fields-target").style("opacity",0);
+
+				foodWasteData = d3.map(foodWasteDataRaw, function(d) { return d.iso; });	
 
 				// mapCanvas.selectAll("circle")
 				// 	.style("opacity", 0)
 				// 	.attr("class", "circle");	
 
-				$(document).ready(function() {					
-					
-				});
+				$(document).ready(function() { });
 			}			
 
 			function registerMouseEvents(){				
@@ -139,12 +151,23 @@
 
 					mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");									
 					highlightCountry(originCountry);					
+
+					d3.select("#country-field").node().blur();					
+					d3.select("#country-field").attr("disabled", "disabled");	
+					d3.select("#country-form").transition().duration(500).style("opacity",0);					
+					sidebarCanvas.select("circle#current-pin").attr("class", "color-" + originCountry);
+					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
+					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
+
+					sidebarCanvas.select("#waste-headline").text(getWastedMoney(originCountry));
+					sidebarCanvas.select("#current-location").text(getCountryName(originCountry));
+
 					registerMouseEvents();
 				}
 				return false;
 			}
 
-			function selectTargetCountry(){
+			function enableSelectTargetCountry(){
 				d3.select("body").transition().duration(500).style("background-color","white");
 				var startScreen = d3.select("#start-screen");
 				startScreen.transition().duration(500).style("opacity", 0)
@@ -157,18 +180,18 @@
 
 			function displayInfo(countryISO){
 				console.log("Comparing " + originCountry + " and " + countryISO);				
-				sidebarCanvas.select("#waste-headline")
-				.text("20000 DKK");
-
+				
+				sidebarCanvas.select("circle#feed-pin").attr("class", "color-" + countryISO);	
+				sidebarCanvas.select("#feed-location").text(getCountryName(countryISO));					
+				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);
 			}
 
-			function getWastedMoney(countryISO){
-				var map = d3.map(foodWasteData, function(d) { return d.iso; });				
-				return map.get(countryISO).valueMillions;	
+			function getWastedMoney(countryISO){				
+				return foodWasteData.get(countryISO).valueMillions;	
 			}
 
 			function getCountryName(countryISO){
-
+				return bigMacIDXData.get(countryISO).country;
 			}
 
 			function getFeededPeople(countryISO, money){
@@ -180,7 +203,7 @@
 					
 				var country = mapCanvas.select("g#"+countryISO);					
 				var circles = country.selectAll("circle");
-				circles.attr("class", "circle circle-selected color-" + countryISO);	
+				circles.attr("class", "circle circle-selected color-" + countryISO);
 			}
 
 			function unhighlightCountry(countryISO, enforce = false){
@@ -203,20 +226,8 @@
 				// 		if(i == circles.size() -1){
 				// 			circles.style("opacity","");							
 				// 		}
-				// 	});
-								
-				drawSidebar();
-			}
-		
-			function drawSidebar(){				
-				sidebarCanvas=d3.select("#sidebar-canvas");
-				var title = sidebarCanvas.append("text")
-				.attr("class", "title")
-				.attr("x", 45)
-				.attr("y", 45)
-				.text("I live in");
-			}
-
+				// 	});											
+			}				
 		</script>
 	</body>
 </html>

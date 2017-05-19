@@ -218,6 +218,10 @@ html {
    -moz-osx-font-smoothing: grayscale;
 }
 
+input {
+   background-color: transparent;
+}
+
 .title {
    font-family: "Fira Sans", sans serif;
    font-size: 21px;
