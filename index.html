@@ -32,17 +32,23 @@
 								<circle id="current-pin" fill="#CCCCCC" cx="48" cy="30" r="5" />
 							</g>
 							<text id="current-location" class="title" x="65" y="45">Origin</text>
-					        <text id="waste-headline" class="headline-bold" x="44" y="130">1234</text>
-					        <text id="waste-headline-currency" class="headline-bold" x="44" y="170">CUR</text>				        
-					        <text id="waste-descriptor" class="descripton" x="45" y="185">				        
-						        <tspan x="45" dy="1.2em">worth of food</tspan>
+					        <text id="waste-headline" class="headline-bold" x="44" y="130">
+					        	<tspan id="waste-headline-amount" x="45" dy="0">1234</tspan>
+		    					<tspan id="waste-headline-currency" x="45" dy="1.0em">CUR</tspan>
+					        </text>					        
+					        <text id="waste-descriptor" class="descripton" x="45" y="200">				        
+						        <tspan x="45" dy="0">worth of food</tspan>
 		    					<tspan x="45" dy="1.2em">is wasted every</tspan>
 		    					<tspan x="45" dy="1.2em">year in Denmark</tspan>
 					        </text>					        
 				        </g>
 				        <g id="description-fields-target">
 				        	<text id="feed-descriptor" class="descripton" x="45" y="420">which could feed</text>	
-					        <text id="feed-headline" class="headline-bold" x="44" y="465">People fed</text>
+					        <text id="feed-headline" class="headline-bold" x="44" y="465">
+					        	<tspan id="feed-headline-counter" x="45" dy="0">1234</tspan>
+		    					<tspan x="45" dy="1.0em">people in</tspan>
+		    					<tspan id="feed-headline-country" x="45" dy="1.0em">Target Country</tspan>
+					        </text>
 					        <text id="feed-location" class="title" x="65" y="635">Target</text>
 					        <g>
 								<line x1="48" y1="625" x2="48" y2="636" style="stroke:rgb(0,0,0);stroke-width:1" />
@@ -195,10 +201,12 @@
 					d3.select("#country-field").attr("disabled", "disabled");	
 					d3.select("#country-form").transition().duration(500).style("opacity",0);					
 					sidebarCanvas.select("circle#current-pin").attr("class", "color-" + originCountry);
+					sidebarCanvas.select("#waste-headline").attr("class", "headline-bold color-" + originCountry);
+
 					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
 					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
 					
-					sidebarCanvas.select("#waste-headline").text(getWastedMoney(originCountry));
+					sidebarCanvas.select("#waste-headline-amount").text(getWastedMoney(originCountry));
 					sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
 					sidebarCanvas.select("#current-location").text(getCountryName(originCountry));
 
@@ -212,7 +220,8 @@
 				sidebarCanvas.select("circle#feed-pin").attr("class", "color-" + countryISO);	
 				sidebarCanvas.select("#feed-location").text(getCountryName(countryISO));
 				sidebarCanvas.select("#feed-headline").attr("class", "headline-bold color-" + countryISO);
-				startCountUpTimer(sidebarCanvas.select("#feed-headline"), getFedPeople(countryISO));
+				sidebarCanvas.select("#feed-headline-country").text(getCountryName(countryISO));
+				startCountUpTimer(sidebarCanvas.select("#feed-headline-counter"), getFedPeople(countryISO));
 
 				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);
 			}
