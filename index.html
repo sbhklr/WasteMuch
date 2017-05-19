@@ -144,7 +144,12 @@
 			}			
 
 			function registerMouseEvents(){				
-				mapCanvas.selectAll("g").on("mouseover", function(){					
+				var groups = mapCanvas.selectAll("g").filter(function(d,i) { 
+					return this.id != "" && this.id != undefined && this.id != UNKNOWN_COUNTRY_ID; 
+				});
+				
+				groups.style("cursor", "pointer")
+				.on("mouseover", function(){					
 					var countryISO = this.id;					
 					highlightCountry(countryISO);							
 				}).on("mouseout", function(){
@@ -274,8 +279,7 @@
 				var target = getCenterPoint(countryTo);
 
 				connectionLine.transition().duration(500).style("opacity", 1);
-				connectionLine
-				.attr("d", function(d) {
+				connectionLine.attr("d", function(d) {
 				    var dx = target.x - source.x,
 				        dy = target.y - source.y,
 				        dr = Math.sqrt(dx * dx + dy * dy);
