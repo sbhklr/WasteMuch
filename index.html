@@ -101,7 +101,36 @@
 				currency: "AUD",
 				valueMillionsUSD: 629,
 				year: 2009
-			}];			
+			},
+			{
+				iso : "DE",
+				valueMillions: 19100,
+				currency: "EUR",
+				valueMillionsUSD: 20772,
+				year: 2011
+			},
+			{
+				iso : "NL",
+				valueMillions: 2400,
+				currency: "EUR",
+				valueMillionsUSD: 2610,
+				year: 2011
+			},
+			{
+				iso : "UK",
+				valueMillions: 12000,
+				currency: "GBP",
+				valueMillionsUSD: 15522,
+				year: 2007
+			},
+			{
+				iso : "US",
+				valueMillions: 114900,
+				currency: "USD",
+				valueMillionsUSD: 114900,
+				year: 2010
+			}			
+			];			
 
 			d3.csv("resources/BigMacIDX.csv", function(data){ 
 				bigMacIDXData = d3.map(data, function(d){ return d.iso; });				
@@ -136,9 +165,8 @@
 				.style("stroke-width","0.5px")				
 				.style("opacity", 0);
 
-				// mapCanvas.selectAll("circle")
-				// 	.style("opacity", 0)
-				// 	.attr("class", "circle");	
+				mapCanvas.selectAll("circle")					
+					.attr("class", "circle");	
 
 				$(document).ready(function() { });
 			}			
@@ -157,8 +185,7 @@
 					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID || countryISO == originCountry) return;
 					unhighlightCountry(countryISO);
 				}). on("click", function(){					
-					var countryISO = this.id;
-					//TODO just add click to groups with ID
+					var countryISO = this.id;					
 					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID) return;	
 					unhighlightCountry(targetCountry, true);														
 					targetCountry = countryISO;
@@ -209,8 +236,8 @@
 					x += parseFloat(circle.attr("cx"));
 					y += parseFloat(circle.attr("cy"));					
 				});				
-				var point = {"x": Math.round(x / circles.size()), "y": Math.round(y / circles.size())};				
-				return point;
+				
+				return {"x": Math.round(x / circles.size()), "y": Math.round(y / circles.size())};
 			}
 
 			function enableSelectTargetCountry(){
@@ -225,12 +252,21 @@
 			}
 
 			function applyOriginCountry(event){
-				//TODO
+				
 				var requestedCountry = document.getElementById("country-field").value.toLowerCase();
+				
 				if(requestedCountry == "australia"){									
 					originCountry = "AU";
 				} else if(requestedCountry == "denmark"){
 					originCountry = "DK";
+				} else if(requestedCountry == "netherlands" || requestedCountry == "holland"){
+					originCountry = "NL";
+				} else if(requestedCountry == "united kingdom" || requestedCountry == "great britain"){
+					originCountry = "UK";
+				} else if(requestedCountry == "usa" || requestedCountry == "america"){
+					originCountry = "US";
+				} else if(requestedCountry == "germany"){
+					originCountry = "DE";
 				} else {
 					return false;
 				}
@@ -305,17 +341,7 @@
 			}
 
 			function drawMainInterface(){					
-				d3.select("#content-container").transition().duration(750).style("opacity",1);											
-								
-				// var circles = mapCanvas.selectAll("circle");
-				// circles.transition()
-				// 	.duration(250)
-				// 	.delay(function(d,i) { return i * 0.5; })					
-				// 	.style("opacity", 1).on("end", function(d,i){
-				// 		if(i == circles.size() -1){
-				// 			circles.style("opacity","");							
-				// 		}
-				// 	});											
+				d3.select("#content-container").transition().duration(750).style("opacity",1);							
 			}			
 
 			function startCountUpTimer(element, number){
