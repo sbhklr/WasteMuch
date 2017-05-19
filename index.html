@@ -39,8 +39,8 @@
 					        </text>					        
 					        <text id="waste-descriptor" class="descripton" x="45" y="240">				        
 						        <tspan x="45" dy="0">worth of food</tspan>
-		    					<tspan x="45" dy="1.2em">is wasted every</tspan>
-		    					<tspan x="45" dy="1.2em">year in Denmark</tspan>
+		    					<tspan x="45" dy="1.2em">was wasted in</tspan>
+		    					<tspan id="waste-descriptor-country" x="45" dy="1.2em"></tspan>
 					        </text>					        
 				        </g>
 				        <g id="description-fields-target">
@@ -221,9 +221,13 @@
 					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
 					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
 					
-					sidebarCanvas.select("#waste-headline-amount").text(getWastedMoney(originCountry));
+					sidebarCanvas.select("#waste-headline-amount").text(parseInt(getWastedMoney(originCountry)).toLocaleString());
 					sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
-					sidebarCanvas.select("#current-location").text(getCountryName(originCountry));
+					
+					var year = foodWasteData.get(originCountry).year;
+					var countryName = getCountryName(originCountry);
+					sidebarCanvas.select("#current-location").text(countryName);
+					sidebarCanvas.select("#waste-descriptor-country").text("in " + year + " in " + countryName);					
 
 				registerMouseEvents();
 
