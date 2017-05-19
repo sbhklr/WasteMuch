@@ -32,8 +32,9 @@
 								<circle id="current-pin" fill="#CCCCCC" cx="48" cy="30" r="5" />
 							</g>
 							<text id="current-location" class="title" x="65" y="45">Origin</text>
-					        <text id="waste-headline" class="headline-bold" x="44" y="130">1234</text>					        
-					        <text id="waste-descriptor" class="descripton" x="45" y="160">				        
+					        <text id="waste-headline" class="headline-bold" x="44" y="130">1234</text>
+					        <text id="waste-headline-currency" class="headline-bold" x="44" y="170">CUR</text>				        
+					        <text id="waste-descriptor" class="descripton" x="45" y="185">				        
 						        <tspan x="45" dy="1.2em">worth of food</tspan>
 		    					<tspan x="45" dy="1.2em">is wasted every</tspan>
 		    					<tspan x="45" dy="1.2em">year in Denmark</tspan>
@@ -81,14 +82,16 @@
 			var foodWasteDataRaw = [
 			{
 				iso : "DK",
-				valueMillions: "25849",
+				valueMillions: 25849,
 				currency: "DKK",
+				valueMillionsUSD: 3864,
 				year: 2009
 			},
 			{
 				iso : "AU",
-				valueMillions: "847",
+				valueMillions: 847,
 				currency: "AUD",
+				valueMillionsUSD: 629,
 				year: 2009
 			}];			
 
@@ -135,10 +138,46 @@
 				}). on("click", function(){					
 					var countryISO = this.id;
 					//TODO just add click to groups with ID
-					if(!countryISO) return;	
+					if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID) return;	
 					unhighlightCountry(targetCountry, true);														
 					targetCountry = countryISO;
 					displayInfo(countryISO);
+				});
+			}
+
+			/**
+			Data fetching
+			*/
+
+			function getWastedMoney(countryISO){				
+				return foodWasteData.get(countryISO).valueMillions;	
+			}
+
+			function getCurrency(countryISO){
+				return foodWasteData.get(countryISO).currency;	
+			}
+
+			function getCountryName(countryISO){
+				return bigMacIDXData.get(countryISO).country;
+			}
+
+			function getFedPeople(countryISO, money){
+				//TODO
+				return 1234;
+			}
+
+			/**
+			UI Modification
+			*/
+
+			function enableSelectTargetCountry(){
+				d3.select("body").transition().duration(500).style("background-color","white");
+				var startScreen = d3.select("#start-screen");
+				startScreen.transition().duration(500).style("opacity", 0)
+				.on("end", function(){
+					startScreen.style("display", "none");
+					drawMainInterface();					
+					d3.select("#country-field").node().focus();
 				});
 			}
 
@@ -158,8 +197,9 @@
 					sidebarCanvas.select("circle#current-pin").attr("class", "color-" + originCountry);
 					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
 					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
-
+					
 					sidebarCanvas.select("#waste-headline").text(getWastedMoney(originCountry));
+					sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
 					sidebarCanvas.select("#current-location").text(getCountryName(originCountry));
 
 					registerMouseEvents();
@@ -167,37 +207,16 @@
 				return false;
 			}
 
-			function enableSelectTargetCountry(){
-				d3.select("body").transition().duration(500).style("background-color","white");
-				var startScreen = d3.select("#start-screen");
-				startScreen.transition().duration(500).style("opacity", 0)
-				.on("end", function(){
-					startScreen.style("display", "none");
-					drawMainInterface();					
-					d3.select("#country-field").node().focus();
-				});
-			}
-
 			function displayInfo(countryISO){
-				console.log("Comparing " + originCountry + " and " + countryISO);				
-				
+				console.log("Comparing " + originCountry + " and " + countryISO);								
 				sidebarCanvas.select("circle#feed-pin").attr("class", "color-" + countryISO);	
-				sidebarCanvas.select("#feed-location").text(getCountryName(countryISO));					
+				sidebarCanvas.select("#feed-location").text(getCountryName(countryISO));
+				sidebarCanvas.select("#feed-headline").attr("class", "headline-bold color-" + countryISO);
+				startCountUpTimer(sidebarCanvas.select("#feed-headline"), getFedPeople(countryISO));
+
 				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);
 			}
-
-			function getWastedMoney(countryISO){				
-				return foodWasteData.get(countryISO).valueMillions;	
-			}
-
-			function getCountryName(countryISO){
-				return bigMacIDXData.get(countryISO).country;
-			}
-
-			function getFeededPeople(countryISO, money){
-
-			}
-
+		
 			function highlightCountry(countryISO){							
 				if(!countryISO || countryISO == UNKNOWN_COUNTRY_ID) return;
 					
@@ -227,7 +246,24 @@
 				// 			circles.style("opacity","");							
 				// 		}
 				// 	});											
-			}				
+			}			
+
+			function startCountUpTimer(element, number){
+				var duration = 1000;
+				var interval = 25;
+				var counter = 0;
+				var limit = number;
+				var step = Math.ceil(limit / (duration / interval));
+
+				var timer = setInterval(function(){
+					counter += step;					
+					element.text(counter);
+					if(counter >= limit){
+						clearInterval(timer);
+						element.text(limit);
+					}
+				}, interval);				
+			}	
 		</script>
 	</body>
 </html>
