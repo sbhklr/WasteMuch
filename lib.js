@@ -3,7 +3,7 @@ function sortByPosition(a, b){
   return a.y - b.y;
 }
 
-function drawCurve(fromX, fromY, toX, toY){
+function drawBezierCurve(fromX, fromY, toX, toY){
 	var dataArray = [{x:fromX, y:fromY},{x:toX / 2, y:fromY + 50},{x:toX, y:toY}];				
 	var group = mapCanvas.append("g").attr("class","group1");
 

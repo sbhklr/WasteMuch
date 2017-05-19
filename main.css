@@ -78,6 +78,8 @@ div {
 Style definitions
 */
 
+circle { transition: fill .5s ease; }
+
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #D8CDC5;
   font-weight: 200;

@@ -76,6 +76,8 @@
 			*/
 			var mapCanvas;
 			var sidebarCanvas;
+			var connectionLine;
+
 			var originCountry;
 			var targetCountry;	
 
@@ -125,6 +127,14 @@
 				sidebarCanvas.select("#description-fields-target").style("opacity",0);
 
 				foodWasteData = d3.map(foodWasteDataRaw, function(d) { return d.iso; });	
+
+				connectionLine = mapCanvas.append("g").attr("class","connection-line").append("path");
+				connectionLine
+				.attr("d", "M0,0A0,0 0 0,1 0,0")
+				.style("fill","none")
+				.style("stroke","#666666")
+				.style("stroke-width","0.5px")				
+				.style("opacity", 0);
 
 				// mapCanvas.selectAll("circle")
 				// 	.style("opacity", 0)
@@ -186,6 +196,18 @@
 			UI Modification
 			*/
 
+			function getCenterPoint(shape){				
+				var circles = shape.selectAll("circle");
+				var x = 0, y = 0;
+				circles.each(function(d,i){					
+					var circle = d3.select(this);
+					x += parseFloat(circle.attr("cx"));
+					y += parseFloat(circle.attr("cy"));					
+				});				
+				var point = {"x": Math.round(x / circles.size()), "y": Math.round(y / circles.size())};				
+				return point;
+			}
+
 			function enableSelectTargetCountry(){
 				d3.select("body").transition().duration(500).style("background-color","white");
 				var startScreen = d3.select("#start-screen");
@@ -241,7 +263,24 @@
 				sidebarCanvas.select("#feed-headline-country").text(getCountryName(countryISO));
 				startCountUpTimer(sidebarCanvas.select("#feed-headline-counter"), getFedPeople(originCountry, countryISO));
 
-				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);
+				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);				
+				drawCurve(originCountry, countryISO);
+			}
+
+			function drawCurve(sourceCountry, targetCountry){
+				var countryFrom = mapCanvas.select("#" + sourceCountry);
+				var countryTo = mapCanvas.select("#" + targetCountry);
+				var source = getCenterPoint(countryFrom);
+				var target = getCenterPoint(countryTo);
+
+				connectionLine.transition().duration(500).style("opacity", 1);
+				connectionLine
+				.attr("d", function(d) {
+				    var dx = target.x - source.x,
+				        dy = target.y - source.y,
+				        dr = Math.sqrt(dx * dx + dy * dy);
+				    return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + target.x + "," + target.y;
+				  });
 			}
 		
 			function highlightCountry(countryISO){							
