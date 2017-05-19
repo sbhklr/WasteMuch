@@ -201,18 +201,22 @@
 			function applyOriginCountry(event){
 				//TODO
 				var requestedCountry = document.getElementById("country-field").value.toLowerCase();
-				if(requestedCountry == "australia"){				
-					var country = mapCanvas.select("#AU");
+				if(requestedCountry == "australia"){									
 					originCountry = "AU";
+				} else if(requestedCountry == "denmark"){
+					originCountry = "DK";
+				} else {
+					return false;
+				}
 
-					mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");									
-					highlightCountry(originCountry);					
+				mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");									
+				highlightCountry(originCountry);					
 
-					d3.select("#country-field").node().blur();					
-					d3.select("#country-field").attr("disabled", "disabled");	
-					d3.select("#country-form").transition().duration(500).style("opacity",0);					
-					sidebarCanvas.select("circle#current-pin").attr("class", "color-" + originCountry);
-					sidebarCanvas.select("#waste-headline").attr("class", "headline-bold color-" + originCountry);
+				d3.select("#country-field").node().blur();					
+				d3.select("#country-field").attr("disabled", "disabled");	
+				d3.select("#country-form").transition().duration(500).style("opacity",0);					
+				sidebarCanvas.select("circle#current-pin").attr("class", "color-" + originCountry);
+				sidebarCanvas.select("#waste-headline").attr("class", "headline-bold color-" + originCountry);
 
 					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
 					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
@@ -221,8 +225,8 @@
 					sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
 					sidebarCanvas.select("#current-location").text(getCountryName(originCountry));
 
-					registerMouseEvents();
-				}
+				registerMouseEvents();
+
 				return false;
 			}
 
