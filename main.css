@@ -31,21 +31,30 @@ div {
    width:1200px;
    height:650px;   
    margin: auto;
-   margin-top: 45px;
+   margin-top: 40px;
    position: relative;
+}
+
+#content-header {
+   position: absolute;
+   left: 45px;
+   height: 25px;
+   width: 1155px;
 }
 
 #sidebar {
    width: 300px;
-   height: 650px;
-   position: absolute;   
+   height: 580px;
+   position: absolute;
+   top: 70px;  
 }
 
 #map-container {
    width: 900px;
-   height: 650px;
+   height: 580px;
    position: absolute;
-   left: 300px;
+   left: 300px;  
+   top: 70px; 
 }
 
 #country-form{
@@ -97,7 +106,9 @@ body {
 }
 
 #content-header {
-   border-bottom: 1px solid #666666;
+   font-family: "Sentinel", serif;
+   text-transform: uppercase;
+   border-bottom: 2px solid #000000;
 }
 
 #start-button {
