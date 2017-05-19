@@ -168,9 +168,19 @@
 				return bigMacIDXData.get(countryISO).country;
 			}
 
-			function getFedPeople(countryISO, money){
-				//TODO
-				return 1234;
+			function getFedPeople(sourceCountry, targetCountry){				
+				var wastedDollars = foodWasteData.get(sourceCountry).valueMillionsUSD * 1000000;
+				var bigMacPricsLocal = bigMacIDXData.get(targetCountry).local_price;
+				var exchangeRate = bigMacIDXData.get(targetCountry).dollar_ex;
+				var bigMacPriceUSD = bigMacPricsLocal / exchangeRate;
+				var amountOfBigmacs = wastedDollars / bigMacPriceUSD;
+
+				var caloriesPerDayPerPerson = 2200;
+				var bigMacCalories = 563;
+				var bigMacsPerPersonPerDay = caloriesPerDayPerPerson / bigMacCalories;
+				var bigMacsPerPersonPerYear = bigMacsPerPersonPerDay * 365;
+				var fedPeople = amountOfBigmacs / bigMacsPerPersonPerYear;
+				return Math.floor(fedPeople);
 			}
 
 			/**
@@ -222,7 +232,7 @@
 				sidebarCanvas.select("#feed-location").text(getCountryName(countryISO));
 				sidebarCanvas.select("#feed-headline").attr("class", "headline-bold color-" + countryISO);
 				sidebarCanvas.select("#feed-headline-country").text(getCountryName(countryISO));
-				startCountUpTimer(sidebarCanvas.select("#feed-headline-counter"), getFedPeople(countryISO));
+				startCountUpTimer(sidebarCanvas.select("#feed-headline-counter"), getFedPeople(originCountry, countryISO));
 
 				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);
 			}
@@ -267,10 +277,10 @@
 
 				var timer = setInterval(function(){
 					counter += step;					
-					element.text(counter);
+					element.text(parseInt(counter).toLocaleString());
 					if(counter >= limit){
-						clearInterval(timer);
-						element.text(limit);
+						clearInterval(timer);						
+						element.text(parseInt(limit).toLocaleString());
 					}
 				}, interval);				
 			}	
