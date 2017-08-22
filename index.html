@@ -40,7 +40,11 @@
 						        <tspan x="45" dy="0">worth of food</tspan>
 		    					<tspan x="45" dy="1.2em">was wasted in</tspan>
 		    					<tspan id="waste-descriptor-country" x="45" dy="1.2em"></tspan>
-					        </text>					        
+					        </text>
+					        <text id="action-descriptor" class="descripton" x="45" y="325">				        
+						        <tspan x="45" dy="0">Select a country to</tspan>
+		    					<tspan x="45" dy="1.2em">compare on the map.</tspan>		    					
+					        </text>			        
 				        </g>
 				        <g id="description-fields-target">
 				        	<text id="feed-descriptor" class="descripton" x="45" y="315">which could feed</text>	
@@ -292,17 +296,18 @@
 				d3.select("#country-form").transition().duration(500).style("opacity",0);					
 				sidebarCanvas.select("circle#current-pin").attr("class", "color-" + originCountry);
 				sidebarCanvas.select("#waste-headline").attr("class", "headline-bold color-" + originCountry);
+				sidebarCanvas.select("#action-descriptor").attr("class", "descripton color-" + originCountry);
 
-					sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
-					sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
-					
-					sidebarCanvas.select("#waste-headline-amount").text(parseInt(getWastedMoney(originCountry)).toLocaleString());
-					sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
-					
-					var year = foodWasteData.get(originCountry).year;
-					var countryName = getCountryName(originCountry);
-					sidebarCanvas.select("#current-location").text(countryName);
-					sidebarCanvas.select("#waste-descriptor-country").text(year + " in " + countryName);					
+				sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
+				sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
+				
+				sidebarCanvas.select("#waste-headline-amount").text(parseInt(getWastedMoney(originCountry)).toLocaleString());
+				sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
+				
+				var year = foodWasteData.get(originCountry).year;
+				var countryName = getCountryName(originCountry);
+				sidebarCanvas.select("#current-location").text(countryName);
+				sidebarCanvas.select("#waste-descriptor-country").text(year + " in " + countryName);					
 
 				registerMouseEvents();
 
@@ -319,6 +324,7 @@
 
 				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);			
 				sidebarCanvas.select("#description-average-person").transition().duration(500).style("opacity",1);
+				sidebarCanvas.select("#action-descriptor").transition().duration(250).style("opacity",0);
 				drawCurve(originCountry, countryISO);
 			}
 

@@ -185,64 +185,64 @@ body {
    opacity: 0.35;
 }
 
-.color-AR { fill: #FD773A; }
-.color-AU { fill: #FC793B; }
-.color-BR { fill: #FB7B3C; }
-.color-UK { fill: #FA7C3D; }
-.color-CA { fill: #F97E3E; }
-.color-CL { fill: #F8803F; }
-.color-CN { fill: #F78240; }
-.color-CO { fill: #F68341; }
-.color-CR { fill: #F58542; }
-.color-CZ { fill: #F48743; }
-.color-DK { fill: #F38944; }
-.color-EG { fill: #F18A44; }
-.color-EU { fill: #F08C45; }
-.color-HK { fill: #EF8E46; }
-.color-HU { fill: #EE8F47; }
-.color-IN { fill: #ED9148; }
-.color-ID { fill: #EC9349; }
-.color-IL { fill: #EB954A; }
-.color-JP { fill: #EA964B; }
-.color-LV { fill: #E9984C; }
-.color-LT { fill: #E89A4D; }
-.color-MY { fill: #E99C4C; }
-.color-MX { fill: #EA9D4B; }
-.color-NZ { fill: #EB9F4A; }
-.color-NO { fill: #EDA149; }
-.color-PK { fill: #EEA248; }
-.color-PE { fill: #EFA447; }
-.color-PH { fill: #F0A646; }
-.color-PL { fill: #F1A745; }
-.color-RU { fill: #F2A944; }
-.color-SA { fill: #F4AB43; }
-.color-SG { fill: #F5AC42; }
-.color-ZA { fill: #F6AE41; }
-.color-KR { fill: #F7AF40; }
-.color-LK { fill: #F8B13F; }
-.color-SE { fill: #F9B33E; }
-.color-CH { fill: #FAB43D; }
-.color-TW { fill: #FCB63C; }
-.color-TH { fill: #FDB83B; }
-.color-TR { fill: #FEB93A; }
-.color-AE { fill: #FFBB39; }
-.color-UA { fill: #FCBC39; }
-.color-US { fill: #FBBC39; }
-.color-UY { fill: #F9BC39; }
-.color-VE { fill: #F8BD39; }
-.color-VN { fill: #F6BD39; }
-.color-AT { fill: #F5BD39; }
-.color-BE { fill: #F3BE39; }
-.color-EE { fill: #F2BE3A; }
-.color-FI { fill: #F1BE3A; }
-.color-FR { fill: #EFBF3A; }
-.color-DE { fill: #EEBF3A; }
-.color-GR { fill: #ECBF3A; }
-.color-IE { fill: #EBC03A; }
-.color-IT { fill: #E9C03A; }
-.color-NL { fill: #E8C03A; }
-.color-PT { fill: #E5C13A; }
-.color-ES { fill: #E9CE3A; }
+.color-AR { fill: #FD773A !important; }
+.color-AU { fill: #FC793B !important; }
+.color-BR { fill: #FB7B3C !important; }
+.color-UK { fill: #FA7C3D !important; }
+.color-CA { fill: #F97E3E !important; }
+.color-CL { fill: #F8803F !important; }
+.color-CN { fill: #F78240 !important; }
+.color-CO { fill: #F68341 !important; }
+.color-CR { fill: #F58542 !important; }
+.color-CZ { fill: #F48743 !important; }
+.color-DK { fill: #F38944 !important; }
+.color-EG { fill: #F18A44 !important; }
+.color-EU { fill: #F08C45 !important; }
+.color-HK { fill: #EF8E46 !important; }
+.color-HU { fill: #EE8F47 !important; }
+.color-IN { fill: #ED9148 !important; }
+.color-ID { fill: #EC9349 !important; }
+.color-IL { fill: #EB954A !important; }
+.color-JP { fill: #EA964B !important; }
+.color-LV { fill: #E9984C !important; }
+.color-LT { fill: #E89A4D !important; }
+.color-MY { fill: #E99C4C !important; }
+.color-MX { fill: #EA9D4B !important; }
+.color-NZ { fill: #EB9F4A !important; }
+.color-NO { fill: #EDA149 !important; }
+.color-PK { fill: #EEA248 !important; }
+.color-PE { fill: #EFA447 !important; }
+.color-PH { fill: #F0A646 !important; }
+.color-PL { fill: #F1A745 !important; }
+.color-RU { fill: #F2A944 !important; }
+.color-SA { fill: #F4AB43 !important; }
+.color-SG { fill: #F5AC42 !important; }
+.color-ZA { fill: #F6AE41 !important; }
+.color-KR { fill: #F7AF40 !important; }
+.color-LK { fill: #F8B13F !important; }
+.color-SE { fill: #F9B33E !important; }
+.color-CH { fill: #FAB43D !important; }
+.color-TW { fill: #FCB63C !important; }
+.color-TH { fill: #FDB83B !important; }
+.color-TR { fill: #FEB93A !important; }
+.color-AE { fill: #FFBB39 !important; }
+.color-UA { fill: #FCBC39 !important; }
+.color-US { fill: #FBBC39 !important; }
+.color-UY { fill: #F9BC39 !important; }
+.color-VE { fill: #F8BD39 !important; }
+.color-VN { fill: #F6BD39 !important; }
+.color-AT { fill: #F5BD39 !important; }
+.color-BE { fill: #F3BE39 !important; }
+.color-EE { fill: #F2BE3A !important; }
+.color-FI { fill: #F1BE3A !important; }
+.color-FR { fill: #EFBF3A !important; }
+.color-DE { fill: #EEBF3A !important; }
+.color-GR { fill: #ECBF3A !important; }
+.color-IE { fill: #EBC03A !important; }
+.color-IT { fill: #E9C03A !important; }
+.color-NL { fill: #E8C03A !important; }
+.color-PT { fill: #E5C13A !important; }
+.color-ES { fill: #E9CE3A !important; }
 
 /**
 Font definitions
