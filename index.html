@@ -31,30 +31,37 @@
 								<circle id="current-pin" fill="#CCCCCC" cx="48" cy="30" r="5" />
 							</g>
 							<text id="current-location" class="title" x="65" y="45">Origin</text>
-					        <text id="waste-headline" class="headline-bold" x="44" y="130">
+					        <text id="waste-headline" class="headline-bold" x="44" y="115">
 					        	<tspan id="waste-headline-amount" x="45" dy="0">1234</tspan>
 					        	<tspan x="45" dy="1.0em">million</tspan>
 		    					<tspan id="waste-headline-currency" x="45" dy="1.0em">CUR</tspan>
 					        </text>					        
-					        <text id="waste-descriptor" class="descripton" x="45" y="240">				        
+					        <text id="waste-descriptor" class="descripton" x="45" y="225">				        
 						        <tspan x="45" dy="0">worth of food</tspan>
 		    					<tspan x="45" dy="1.2em">was wasted in</tspan>
 		    					<tspan id="waste-descriptor-country" x="45" dy="1.2em"></tspan>
 					        </text>					        
 				        </g>
 				        <g id="description-fields-target">
-				        	<text id="feed-descriptor" class="descripton" x="45" y="355">which could feed</text>	
-					        <text id="feed-headline" class="headline-bold" x="44" y="400">
+				        	<text id="feed-descriptor" class="descripton" x="45" y="315">which could feed</text>	
+					        <text id="feed-headline" class="headline-bold" x="44" y="360">
 					        	<tspan id="feed-headline-counter" x="45" dy="0">1234</tspan>
 		    					<tspan x="45" dy="1.0em">people in</tspan>
 		    					<tspan id="feed-headline-country" x="45" dy="1.0em">Target Country</tspan>
 					        </text>
-					        <text id="feed-location" class="title" x="65" y="570">Target</text>
+					        <text id="feed-location" class="title" x="65" y="500">Target</text>
 					        <g>
-								<line x1="48" y1="560" x2="48" y2="571" style="stroke:rgb(0,0,0);stroke-width:1" />
-					        	<circle id="feed-pin" fill="#CCCCCC" cx="48" cy="557" r="5" />
+								<line x1="48" y1="490" x2="48" y2="501" style="stroke:rgb(0,0,0);stroke-width:1" />
+					        	<circle id="feed-pin" fill="#CCCCCC" cx="48" cy="487" r="5" />
 					        </g>
 				        </g>
+				        <g id="description-average-person">
+				        	<text class="descripton description-small" x="45" y="545">				        
+						        <tspan x="45" dy="0">Based on an avg. consumption of</tspan>
+		    					<tspan x="45" dy="1.2em">2200 cal per day, which equates</tspan>
+		    					<tspan x="45" dy="1.2em">to around 4 Big Macs.</tspan>
+					        </text>
+				        </g>				        
 					</svg>
 					<form id="country-form" onSubmit="return applyOriginCountry()" action="">
 			            <input type="text" class="headline" id="country-field" placeholder="country">
@@ -159,6 +166,7 @@
 				d3.select("#content-container").style("display","block");
 				sidebarCanvas.select("#description-fields-origin").style("opacity",0);
 				sidebarCanvas.select("#description-fields-target").style("opacity",0);
+				sidebarCanvas.select("#description-average-person").style("opacity",0);
 
 				foodWasteData = d3.map(foodWasteDataRaw, function(d) { return d.iso; });	
 
@@ -309,7 +317,8 @@
 				sidebarCanvas.select("#feed-headline-country").text(getCountryName(countryISO));
 				startCountUpTimer(sidebarCanvas.select("#feed-headline-counter"), getFedPeople(originCountry, countryISO));
 
-				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);				
+				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",1);			
+				sidebarCanvas.select("#description-average-person").transition().duration(500).style("opacity",1);
 				drawCurve(originCountry, countryISO);
 			}
 

@@ -166,11 +166,11 @@ body {
    font-size: 0.75em;
    color: darkgray;
    text-decoration: none;
-   border-bottom: 1px solid darkgray;
+   border-bottom: 1px solid #CABBB0;
 }
 
 #footer a:hover{
-    border-bottom: 2px solid darkgray;
+    border-bottom: 2px solid #CABBB0;
 }
 
 .circle {   
@@ -307,4 +307,8 @@ input {
    letter-spacing: 0.30px;
    word-spacing: -0.40px;
    text-transform: none;
+}
+
+.description-small{
+   font-size:0.75em;
 }
