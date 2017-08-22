@@ -126,7 +126,7 @@ body {
    margin: 4px 2px;
    cursor: pointer;
    margin-left: 45px;
-   font-family: "Fira Sans", sans serif;
+   font-family: "Fira Sans", Sans-Serif;
    font-size: 16px;
    font-weight: 400;
    line-height: 1.85;
@@ -152,6 +152,25 @@ body {
    word-spacing: -0.40px;
    text-transform: none;
    
+}
+
+#footer {     
+   color: darkgray;
+   position: absolute;
+   right: 0px;
+   bottom: 0px;
+}
+
+#footer a {
+   font-family: "Sentinel";
+   font-size: 0.75em;
+   color: darkgray;
+   text-decoration: none;
+   border-bottom: 1px solid darkgray;
+}
+
+#footer a:hover{
+    border-bottom: 2px solid darkgray;
 }
 
 .circle {   
@@ -239,7 +258,7 @@ input {
 }
 
 .title {
-   font-family: "Fira Sans", sans serif;
+   font-family: "Fira Sans", Sans-Serif;
    font-size: 21px;
    font-weight: 200;
    line-height: 1.85;
@@ -252,7 +271,7 @@ input {
 }
 
 .headline{
-   font-family: "Fira Sans", sans serif;
+   font-family: "Fira Sans", Sans-Serif;
    font-size:42px;
    font-weight: 400;
    line-height: 1.85;
@@ -265,7 +284,7 @@ input {
 }
 
 .headline-bold{
-   font-family: "Fira Sans", sans serif;
+   font-family: "Fira Sans", Sans-Serif;
    font-size:42px;
    font-weight: 400;
    line-height: 1.85;
@@ -277,7 +296,7 @@ input {
    text-transform: none;
 }
 .descripton{
-   font-family: "Sentinel", sans serif;
+   font-family: "Sentinel", Sans-Serif;
    font-size:16px;
    fill: #CABBB0;
    font-weight: 400;
