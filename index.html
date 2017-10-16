@@ -18,7 +18,7 @@
 					We know that we need to be more thoughtful about the food we put on our plates and the food we discard&#8202;&mdash;&#8202;but what would be the effect of such a change? Does throwing away a half-eaten apple or milk or bread past expiration date even add to a country's waste?  
 				</div>
 				<br />
-				<button id="start-button" onclick="enableSelectTargetCountry()">Find out</button>
+				<button id="start-button" onclick="transitionFromIntroToMainInterface()">Find out</button>
 			</div>
 			<div id="content-container" style="display: none;">
 				<div id="content-header">Waste much?</div>
@@ -30,10 +30,10 @@
 								<line x1="48" y1="35" x2="48" y2="46" style="stroke:rgb(0,0,0);stroke-width:1" />
 								<circle id="current-pin" fill="#CCCCCC" cx="48" cy="30" r="5" />
 							</g>
-							<text id="current-location" class="title" x="65" y="45">Origin</text>
+							<text id="current-location" class="title" x="65" y="45" onclick="resetOriginCountry()">Origin</text>
 					        <text id="waste-headline" class="headline-bold" x="44" y="115">
 					        	<tspan id="waste-headline-amount" x="45" dy="0">1234</tspan>
-					        	<tspan x="45" dy="1.0em">million</tspan>
+					        	<tspan id="waste-headline-quantifier" x="45" dy="1.0em">million</tspan>
 		    					<tspan id="waste-headline-currency" x="45" dy="1.0em">CUR</tspan>
 					        </text>					        
 					        <text id="waste-descriptor" class="descripton" x="45" y="225">				        
@@ -188,10 +188,19 @@
 				$(document).ready(function() { });
 			}			
 
-			function registerMouseEvents(){				
-				var groups = mapCanvas.selectAll("g").filter(function(d,i) { 
+			function getCountrySVGGroups(){
+				return mapCanvas.selectAll("g").filter(function(d,i) { 
 					return this.id != "" && this.id != undefined && this.id != UNKNOWN_COUNTRY_ID; 
 				});
+			}
+
+			function deRegisterMouseEvents(){
+				var groups = getCountrySVGGroups();				
+				groups.style("cursor", "none").on("mouseover",null).on("mouseout",null).on("click",null);
+			}
+
+			function registerMouseEvents(){				
+				var groups = getCountrySVGGroups();
 				
 				groups.style("cursor", "pointer")
 				.on("mouseover", function(){					
@@ -257,7 +266,7 @@
 				return {"x": Math.round(x / circles.size()), "y": Math.round(y / circles.size())};
 			}
 
-			function enableSelectTargetCountry(){
+			function transitionFromIntroToMainInterface(){
 				d3.select("body").transition().duration(500).style("background-color","white");
 				var startScreen = d3.select("#start-screen");
 				startScreen.transition().duration(500).style("opacity", 0)
@@ -265,6 +274,23 @@
 					startScreen.style("display", "none");
 					drawMainInterface();					
 					d3.select("#country-field").node().focus();
+				});
+			}
+
+			function resetOriginCountry(){
+				deRegisterMouseEvents();
+				//d3.select("#country-field").node().value = null;
+				d3.select("#country-field").attr("disabled", null);
+				mapCanvas.selectAll("circle").attr("class", "circle circle-deselected");	
+				connectionLine.style("opacity", 0);
+
+				d3.select("#country-form").transition().duration(500).style("opacity",1);
+				sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",1);
+				sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",0);
+				sidebarCanvas.select("#description-fields-target").transition().duration(500).style("opacity",0);
+				sidebarCanvas.select("#description-average-person").transition().duration(500).style("opacity",0).on("end", function(){
+					d3.select("#country-field").node().focus();
+					d3.select("#country-field").node().select();
 				});
 			}
 
@@ -278,9 +304,9 @@
 					originCountry = "DK";
 				} else if(requestedCountry == "netherlands" || requestedCountry == "holland"){
 					originCountry = "NL";
-				} else if(requestedCountry == "united kingdom" || requestedCountry == "great britain"){
+				} else if(requestedCountry == "united kingdom" || requestedCountry == "great britain" || requestedCountry == "britain"){
 					originCountry = "UK";
-				} else if(requestedCountry == "usa" || requestedCountry == "america"){
+				} else if(requestedCountry == "usa" || requestedCountry == "america" || requestedCountry == "united states"){
 					originCountry = "US";
 				} else if(requestedCountry == "germany"){
 					originCountry = "DE";
@@ -301,7 +327,16 @@
 				sidebarCanvas.select("#country-field-title").transition().duration(500).style("opacity",0);
 				sidebarCanvas.select("#description-fields-origin").transition().duration(500).style("opacity",1);
 				
-				sidebarCanvas.select("#waste-headline-amount").text(parseInt(getWastedMoney(originCountry)).toLocaleString());
+				var waste = parseInt(getWastedMoney(originCountry));
+				
+				if(waste > 1000){
+					waste = Math.round(waste / 1000.0 * 10.0) / 10.0;
+					sidebarCanvas.select("#waste-headline-quantifier").text("billion");					
+				} else {
+					sidebarCanvas.select("#waste-headline-quantifier").text("million");					
+				}
+
+				sidebarCanvas.select("#waste-headline-amount").text(waste.toLocaleString());
 				sidebarCanvas.select("#waste-headline-currency").text(getCurrency(originCountry));
 				
 				var year = foodWasteData.get(originCountry).year;
